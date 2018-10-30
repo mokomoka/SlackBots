@@ -47,7 +47,7 @@ function MINUTES(){
   var row;
   do {
     row = Math.floor(Math.random() * 13) + 1;
-  } while(sheetdata[row][2] == max || count == 13);
+  } (sheetdata[row][2] == max && count != 13);
   Logger.log(row);
   
   //抽選で決まった人の議事録担当回数を更新
