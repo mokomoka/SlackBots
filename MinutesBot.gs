@@ -27,7 +27,12 @@ function MINUTES(){
   
   //1番議事録書いてる人が何回書いてるのか数える
   var max = 0;
-  for(var i = 1; i <= 13; i++){
+  
+  //抽選対象の人数と絵文字の数
+  const members = 13;
+  const emojis = 9;
+  
+  for(var i = 1; i <= members; i++){
     if(sheetdata[i][2] > max){
       max = sheetdata[i][2];
     }
@@ -37,7 +42,7 @@ function MINUTES(){
   //回数が最大値（max）と同じ人数を数える
   //全部で13人なので、全員同じ回数ずつやっていたらcountが13になる
   var count = 0;
-  for(var i = 1; i <= 13; i++){
+  for(var i = 1; i <= members; i++){
     if(sheetdata[i][2] == max){
       count++;
     }
@@ -46,8 +51,8 @@ function MINUTES(){
   //抽選部分
   var row;
   do {
-    row = Math.floor(Math.random() * 13) + 1;
-  } (sheetdata[row][2] == max && count != 13);
+    row = Math.floor(Math.random() * members) + 1;
+  } (sheetdata[row][2] == max && count != members);
   Logger.log(row);
   
   //抽選で決まった人の議事録担当回数を更新
@@ -58,7 +63,7 @@ function MINUTES(){
   var Name = sheetdata[row][0];
   
   //絵文字を適当に決める
-  var row2 = Math.floor(Math.random() * 9) + 1;
+  var row2 = Math.floor(Math.random() * emojis) + 1;
   Logger.log(row2);
   var Emoji = sheetdata[row2][1];
   
