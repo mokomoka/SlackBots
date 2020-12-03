@@ -53,7 +53,7 @@ function forwardMessage(token, workspace, event_type, channel, text, ts) {
   const keys = Object.keys(channels);
   const trigger_word = "hoge"; // 転送するトリガーワード
   
-  if (event_type == "message" && text.indexOf(trigger_word) != -1) {
+  if (event_type == "message" && text.includes(trigger_word)) {
     const link = "https://"+workspace+".slack.com/archives/"+channel+"/p"+ts.replace(".", "");
     
     let payload = {
@@ -62,7 +62,8 @@ function forwardMessage(token, workspace, event_type, channel, text, ts) {
     };
     
     for(let key in channels) {
-      if(text.indexOf(key+trigger_word) != -1 || key == keys[keys.length-1]) {
+      if(text.toLowerCase().includes(key+trigger_word) || key == keys[keys.length-1]) {
+        // 大文字小文字を区別したい場合は .toLowerCase() を削除
         // 最後はその他が入ることを想定（trigger_wordは含まれているが他のkeyと一致するワードが入っていない場合にその他に指定したチャンネルに転送する）
         // もしその他は考えない場合は条件式の || 以降を削除
         payload.channel = channels[key];
@@ -109,7 +110,8 @@ function addReaction(token, channel, ts) {
 
 function recordHistory(sheet, lastrow, ts, link, text) {
   // 今回はスプレッドシートの1列目にタイムスタンプ、2列目に転送したメッセージのリンク、3列目に転送したメッセージの内容を保存
-  sheet.getRange(lastrow+1,1).setValue(ts);
+  let dateTime = new Date(ts * 1000); // APIのタイムスタンプ（UNIXTIME）を読みやすいように変換するための記述
+  sheet.getRange(lastrow+1,1).setValue(dateTime.toLocaleDateString("ja-JP")+" "+dateTime.toLocaleTimeString("ja-JP"));
   sheet.getRange(lastrow+1,2).setValue(link.replace("<","").replace(">",""));
   sheet.getRange(lastrow+1,3).setValue(text);
 }
