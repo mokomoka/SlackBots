@@ -11,7 +11,7 @@ function doPost(e) {
   const json = JSON.parse(e.postData.getDataAsString());
   
   // Events APIからのPOSTであることを確認
-  if (prop.getProperty("verify_token") != json.token) {
+  if (prop.getProperty("verification_token") != json.token) {
     throw new Error("invalid token.");
   }
   
@@ -74,7 +74,7 @@ function forwardMessage(token, workspace, event_type, channel, text, ts) {
       }
     }
     
-    var params = {
+    const params = {
       "method" : "post",
       "payload" : payload
     };
@@ -95,14 +95,14 @@ function addReaction(token, channel, ts) {
   const reaction_url = "https://slack.com/api/reactions.add";
   const emoji_name = "heavy_check_mark"; // リアクションに使う絵文字名を英語で入力
   
-  let payload = {
+  const payload = {
     "token" : token,
     "channel" : channel,
     "name" : emoji_name,
     "timestamp" : ts
   };
   
-  var params = {
+  const params = {
     "method" : "post",
     "payload" : payload
   };
