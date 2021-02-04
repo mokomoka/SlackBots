@@ -1,4 +1,7 @@
 function doPost(e) {
+  // 新UIの場合はUI上からスクリプトのプロパティを設定できないため、コード内で設定する
+  // setProperties();
+  
   // プロジェクトのプロパティ>スクリプトのプロパティから情報取得
   // Bot User OAuth Access TokenとAppのVerification TokenとワークスペースのURL（固有部分）が入っている前提
   const prop = PropertiesService.getScriptProperties();
@@ -115,3 +118,10 @@ function recordHistory(sheet, lastrow, ts, link, text) {
   sheet.getRange(lastrow+1,2).setValue(link.replace("<","").replace(">",""));
   sheet.getRange(lastrow+1,3).setValue(text);
 }
+
+
+// コード内でスクリプトのプロパティを設定する場合
+// function setProperties() {
+//  PropertiesService.getScriptProperties().setProperty("bot_token", "xoxb-xxx...");
+//  PropertiesService.getScriptProperties().setProperty("verification_token", "xxx...");
+// }
